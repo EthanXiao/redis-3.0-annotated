@@ -747,6 +747,7 @@ void copyClientOutputBuffer(redisClient *dst, redisClient *src) {
 
 /*
  * TCP 连接 accept 处理器
+ * 每次连接最大执行命令次数 1000
  */
 #define MAX_ACCEPTS_PER_CALL 1000
 static void acceptCommonHandler(int fd, int flags) {
@@ -1508,7 +1509,7 @@ void processInputBuffer(redisClient *c) {
         /* Determine request type when unknown. */
         // 判断请求的类型
         // 两种类型的区别可以在 Redis 的通讯协议上查到：
-        // http://redis.readthedocs.org/en/latest/topic/protocol.html
+        // http://redisdoc.com/topic/protocol.html
         // 简单来说，多条查询是一般客户端发送来的，
         // 而内联查询则是 TELNET 发送来的
         if (!c->reqtype) {
